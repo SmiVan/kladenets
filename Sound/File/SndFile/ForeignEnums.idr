@@ -599,3 +599,67 @@ Cast SoundFileDescriptor Int where
     cast Genre          = 0x10
 
 -- TODO: Add Int -> SoundFileDescriptor if needed.
+
+---- SOUND FILE OPENING MODES
+
+data SoundFileAccessMode =
+    Read |
+    Write |
+    ReadWrite
+
+Eq SoundFileAccessMode where
+    Read == Read = True
+    Write == Write = True
+    ReadWrite == ReadWrite = True
+    _ == _ = False
+
+Cast SoundFileAccessMode Int where
+    cast Read       = 0x10
+    cast Write      = 0x20
+    cast ReadWrite  = 0x30
+
+---- SOUND FILE ERRORS
+
+public export
+data SoundFileLibError : Type where
+    SoundFileLibErrorNone : SoundFileLibError
+    ||| Unrecognised Format
+    SoundFileLibErrorUnrecognisedFormat : SoundFileLibError
+    ||| System Error
+    SoundFileLibErrorSystem : SoundFileLibError
+    ||| Malformed File
+    SoundFileLibErrorMalformedFile : SoundFileLibError
+    ||| Unsupported Encoding
+    SoundFileLibErrorUnsupportedEncoding : SoundFileLibError
+    ||| Internal libsndfile error
+    SoundFileLibErrorInternal : Int -> SoundFileLibError
+
+export
+Eq SoundFileLibError where
+    SoundFileLibErrorNone == SoundFileLibErrorNone = True
+    SoundFileLibErrorUnrecognisedFormat == SoundFileLibErrorUnrecognisedFormat = True
+    SoundFileLibErrorSystem == SoundFileLibErrorSystem = True
+    SoundFileLibErrorMalformedFile == SoundFileLibErrorMalformedFile = True
+    SoundFileLibErrorUnsupportedEncoding == SoundFileLibErrorUnsupportedEncoding = True
+    (SoundFileLibErrorInternal a) == (SoundFileLibErrorInternal b) = a == b
+    _ == _ = False
+
+export
+Show SoundFileLibError where
+    show SoundFileLibErrorNone = "No error"
+    show SoundFileLibErrorUnrecognisedFormat = "Sound file format not recognised"
+    show SoundFileLibErrorSystem = "System error"
+    show SoundFileLibErrorMalformedFile = "Malformed file"
+    show SoundFileLibErrorUnsupportedEncoding = "Sound file encoding is not supported"
+    show (SoundFileLibErrorInternal x) = "libsndfile internal error " ++ (show x)
+
+export
+Cast Int SoundFileLibError where
+    cast 0 = SoundFileLibErrorNone
+    cast 1 = SoundFileLibErrorUnrecognisedFormat
+    cast 2 = SoundFileLibErrorSystem
+    cast 3 = SoundFileLibErrorMalformedFile
+    cast 4 = SoundFileLibErrorUnsupportedEncoding
+    cast a = SoundFileLibErrorInternal a
+
+-- TODO: Add SoundFileLibError -> Int if needed.
