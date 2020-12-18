@@ -12,7 +12,7 @@
    height="255"
    style="fill:none"
    id="svg8"
-   sodipodi:docname="kladenets2.svg"
+   sodipodi:docname="logo.svg"
    inkscape:version="1.0.1 (0767f8302a, 2020-10-17)">
   <metadata
      id="metadata14">
@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -42,22 +42,23 @@
      id="namedview10"
      showgrid="false"
      inkscape:zoom="0.80761905"
-     inkscape:cx="277.5"
+     inkscape:cx="7.5707555"
      inkscape:cy="127.5"
-     inkscape:window-x="132"
-     inkscape:window-y="128"
+     inkscape:window-x="223"
+     inkscape:window-y="148"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg8" />
+     inkscape:current-layer="svg8"
+     inkscape:document-rotation="0" />
   <path
      d=""
-     style="fill:none;stroke:#3e3d42;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+     style="fill:none;stroke:#24292e;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="path2" />
   <path
      d=""
-     style="fill:none;stroke:#3e3d42;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+     style="fill:none;stroke:#24292e;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="path4" />
   <path
      d="m 7.5,7.5 v 0 240 m 15,-240 v 0 240 m 30,-240 v 0 240 m 75,-195 a 45,45 0 0 1 -45,45 v 0 l -15,30 v 0 l 15,30 a 45,45 0 0 1 45,45 m 0,-150 v 0 -45 0 h -30 v 30 h 30 m 0,165 v 0 45 0 h -30 v -30 h 30 m 30,-90 v 0 120 m 60,-60 v 0 h -30 v 60 m 30,-60 v 0 60 m -30,-30 v 0 h 30 m 30,-30 v 0 60 h 30 v -120 m -30,60 v 0 h 30 m 30,0 v 0 60 h 30 m -30,-60 v 0 h 30 v 0 30 h -30 m 60,-30 v 0 60 m 0,-60 v 0 h 30 v 0 60 m 30,-60 v 0 60 h 30 m 0,-60 v 0 h -30 m 30,0 v 0 30 h -30 m 60,-90 v 0 120 m -30,-90 v 0 h 60 m 30,30 v 0 h -30 v 30 h 30 v 30 h -30"
-     style="fill:none;stroke:#3e3d42;stroke-width:15;stroke-linecap:square;stroke-linejoin:miter;stroke-opacity:1"
+     style="fill:none;stroke:#24292e;stroke-width:15;stroke-linecap:square;stroke-linejoin:miter;stroke-opacity:1"
      id="path6" />
 </svg>
