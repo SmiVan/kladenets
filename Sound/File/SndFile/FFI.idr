@@ -7,10 +7,6 @@ libsndfile x = "C:" ++ x ++ ",libsndfile"
 -- Raw FFI bindings for libsndfile
 -- This file has to be checked against libsndfile/include/sndfile.h.in
 
----- ENUMS
-
--- TODO
-
 ---- TYPES
 
 SoundFilePtr : Type
