@@ -558,3 +558,44 @@ Cast SoundFileLibraryCommand Int where
     cast GET_CART_INFO              = 0x1401
     cast SET_ORIGINAL_SAMPLERATE    = 0x1500
     cast GET_ORIGINAL_SAMPLERATE    = 0x1501
+
+---- SOUND FILE DESCRIPTION STRINGS
+
+data SoundFileDescriptor =
+    Title |
+    Copyright |
+    Software |
+    Artist |
+    Comment |
+    Date |
+    Album |
+    License |
+    TrackNumber |
+    Genre
+
+Eq SoundFileDescriptor where
+    Title == Title = True
+    Copyright == Copyright = True
+    Software == Software = True
+    Artist == Artist = True
+    Comment == Comment = True
+    Date == Date = True
+    Album == Album = True
+    License == License = True
+    TrackNumber == TrackNumber = True
+    Genre == Genre = True
+    _ == _ = False
+
+Cast SoundFileDescriptor Int where
+    cast Title          = 0x01
+    cast Copyright      = 0x02
+    cast Software       = 0x03
+    cast Artist         = 0x04
+    cast Comment        = 0x05
+    cast Date           = 0x06
+    cast Album          = 0x07
+    cast License        = 0x08
+    cast TrackNumber    = 0x09
+    cast Genre          = 0x10
+
+-- TODO: Add Int -> SoundFileDescriptor if needed.
