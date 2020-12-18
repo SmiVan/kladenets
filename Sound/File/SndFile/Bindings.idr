@@ -1,5 +1,4 @@
-module Sound.File.SndFile.FFI
-import public Sound.File.SndFile.ForeignEnums
+module Sound.File.SndFile.Bindings
 import public Sound.File.SndFile.ForeignTypes
 
 libsndfile : String -> String
@@ -140,9 +139,3 @@ prim_sf_write_sync : SoundFilePtr -> PrimIO ()
 -- /!\: sf_wchar_open is not supported, as it is Windows only.
 
 -- TODO: SF_CHUNK_INFO and associated functions (:773)
-
-test : IO ()
-test = do
-    v <- primIO $ prim_sf_version_string
-    putStrLn v
-    pure ()
