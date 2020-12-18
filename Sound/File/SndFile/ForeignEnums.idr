@@ -1,4 +1,4 @@
-module Sound.File.SndFile.Enums
+module Sound.File.SndFile.ForeignEnums
 
 -- Based on the C Enums from libsndfile/include/sndfile.h.in
 -- INVALID constructors are the enum overflow case.
