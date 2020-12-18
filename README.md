@@ -2,7 +2,7 @@
 
 # Kladenets
 
-Music and sound library for Idris2 on C, built on libsoundio and libsndfile bindings.
+Music and sound library for [Idris2](https://github.com/idris-lang/Idris2) on C, built on [libsoundio](https://github.com/andrewrk/libsoundio) and [libsndfile](https://github.com/libsndfile/libsndfile) bindings.
 
 ---
 
