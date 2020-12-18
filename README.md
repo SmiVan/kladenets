@@ -4,6 +4,8 @@
 
 Music and sound library for [Idris2](https://github.com/idris-lang/Idris2) on C, built on [libsoundio](https://github.com/andrewrk/libsoundio) and [libsndfile](https://github.com/libsndfile/libsndfile) bindings.
 
+Currently in the process of porting from the private Idris1 version.
+
 ---
 
 There are no artifacts available as of yet.
