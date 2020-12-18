@@ -598,6 +598,18 @@ Cast SoundFileDescriptor Int where
     cast TrackNumber    = 0x09
     cast Genre          = 0x10
 
+Show SoundFileDescriptor where
+    show Title = "Title"
+    show Copyright = "Copyright"
+    show Software = "Software"
+    show Artist = "Artist"
+    show Comment = "Comment"
+    show Date = "Date"
+    show Album = "Album"
+    show License = "License"
+    show TrackNumber = "Track Number"
+    show Genre = "Genre"
+
 -- TODO: Add Int -> SoundFileDescriptor if needed.
 
 ---- SOUND FILE OPENING MODES
@@ -618,7 +630,7 @@ Cast SoundFileAccessMode Int where
     cast Write      = 0x20
     cast ReadWrite  = 0x30
 
----- SOUND FILE ERRORS
+---- LIBRARY ERRORS
 
 public export
 data SoundFileLibError : Type where
@@ -663,3 +675,127 @@ Cast Int SoundFileLibError where
     cast a = SoundFileLibErrorInternal a
 
 -- TODO: Add SoundFileLibError -> Int if needed.
+
+---- CHANNEL MAP
+
+data SoundFileChannel =
+    CHANNEL_INVALID |
+    CHANNEL_MONO |
+    CHANNEL_LEFT |
+    CHANNEL_RIGHT |
+    CHANNEL_CENTER |
+    CHANNEL_FRONT_LEFT |
+    CHANNEL_FRONT_RIGHT |
+    CHANNEL_FRONT_CENTER |
+    CHANNEL_REAR_CENTER |
+    CHANNEL_REAR_LEFT |
+    CHANNEL_REAR_RIGHT |
+    CHANNEL_LFE |
+    CHANNEL_FRONT_LEFT_OF_CENTER |
+    CHANNEL_FRONT_RIGHT_OF_CENTER |
+    CHANNEL_SIDE_LEFT |
+    CHANNEL_SIDE_RIGHT |
+    CHANNEL_TOP_CENTER |
+    CHANNEL_TOP_FRONT_LEFT |
+    CHANNEL_TOP_FRONT_RIGHT |
+    CHANNEL_TOP_FRONT_CENTER |
+    CHANNEL_TOP_REAR_LEFT |
+    CHANNEL_TOP_REAR_RIGHT |
+    CHANNEL_TOP_REAR_CENTER |
+    CHANNEL_AMBISONIC_B_W |
+    CHANNEL_AMBISONIC_B_X |
+    CHANNEL_AMBISONIC_B_Y |
+    CHANNEL_AMBISONIC_B_Z |
+    CHANNEL_MAX
+
+Eq SoundFileChannel where
+    CHANNEL_INVALID == CHANNEL_INVALID = True
+    CHANNEL_MONO == CHANNEL_MONO = True
+    CHANNEL_LEFT == CHANNEL_LEFT = True
+    CHANNEL_RIGHT == CHANNEL_RIGHT = True
+    CHANNEL_CENTER == CHANNEL_CENTER = True
+    CHANNEL_FRONT_LEFT == CHANNEL_FRONT_LEFT = True
+    CHANNEL_FRONT_RIGHT == CHANNEL_FRONT_RIGHT = True
+    CHANNEL_FRONT_CENTER == CHANNEL_FRONT_CENTER = True
+    CHANNEL_REAR_CENTER == CHANNEL_REAR_CENTER = True
+    CHANNEL_REAR_LEFT == CHANNEL_REAR_LEFT = True
+    CHANNEL_REAR_RIGHT == CHANNEL_REAR_RIGHT = True
+    CHANNEL_LFE == CHANNEL_LFE = True
+    CHANNEL_FRONT_LEFT_OF_CENTER == CHANNEL_FRONT_LEFT_OF_CENTER = True
+    CHANNEL_FRONT_RIGHT_OF_CENTER == CHANNEL_FRONT_RIGHT_OF_CENTER = True
+    CHANNEL_SIDE_LEFT == CHANNEL_SIDE_LEFT = True
+    CHANNEL_SIDE_RIGHT == CHANNEL_SIDE_RIGHT = True
+    CHANNEL_TOP_CENTER == CHANNEL_TOP_CENTER = True
+    CHANNEL_TOP_FRONT_LEFT == CHANNEL_TOP_FRONT_LEFT = True
+    CHANNEL_TOP_FRONT_RIGHT == CHANNEL_TOP_FRONT_RIGHT = True
+    CHANNEL_TOP_FRONT_CENTER == CHANNEL_TOP_FRONT_CENTER = True
+    CHANNEL_TOP_REAR_LEFT == CHANNEL_TOP_REAR_LEFT = True
+    CHANNEL_TOP_REAR_RIGHT == CHANNEL_TOP_REAR_RIGHT = True
+    CHANNEL_TOP_REAR_CENTER == CHANNEL_TOP_REAR_CENTER = True
+    CHANNEL_AMBISONIC_B_W == CHANNEL_AMBISONIC_B_W = True
+    CHANNEL_AMBISONIC_B_X == CHANNEL_AMBISONIC_B_X = True
+    CHANNEL_AMBISONIC_B_Y == CHANNEL_AMBISONIC_B_Y = True
+    CHANNEL_AMBISONIC_B_Z == CHANNEL_AMBISONIC_B_Z = True
+    CHANNEL_MAX == CHANNEL_MAX = True
+    _ == _ = False
+
+Cast SoundFileChannel Int where
+    cast CHANNEL_INVALID                = 00
+    cast CHANNEL_MONO                   = 01
+    cast CHANNEL_LEFT                   = 02
+    cast CHANNEL_RIGHT                  = 03
+    cast CHANNEL_CENTER                 = 04
+    cast CHANNEL_FRONT_LEFT             = 05
+    cast CHANNEL_FRONT_RIGHT            = 06
+    cast CHANNEL_FRONT_CENTER           = 07
+    cast CHANNEL_REAR_CENTER            = 08
+    cast CHANNEL_REAR_LEFT              = 09
+    cast CHANNEL_REAR_RIGHT             = 10
+    cast CHANNEL_LFE                    = 11
+    cast CHANNEL_FRONT_LEFT_OF_CENTER   = 12
+    cast CHANNEL_FRONT_RIGHT_OF_CENTER  = 13
+    cast CHANNEL_SIDE_LEFT              = 14
+    cast CHANNEL_SIDE_RIGHT             = 15
+    cast CHANNEL_TOP_CENTER             = 16
+    cast CHANNEL_TOP_FRONT_LEFT         = 17
+    cast CHANNEL_TOP_FRONT_RIGHT        = 18
+    cast CHANNEL_TOP_FRONT_CENTER       = 19
+    cast CHANNEL_TOP_REAR_LEFT          = 20
+    cast CHANNEL_TOP_REAR_RIGHT         = 21
+    cast CHANNEL_TOP_REAR_CENTER        = 22
+    cast CHANNEL_AMBISONIC_B_W          = 23
+    cast CHANNEL_AMBISONIC_B_X          = 24
+    cast CHANNEL_AMBISONIC_B_Y          = 25
+    cast CHANNEL_AMBISONIC_B_Z          = 26
+    cast CHANNEL_MAX                    = 27
+
+Cast Int SoundFileChannel where
+    cast 00 = CHANNEL_INVALID
+    cast 01 = CHANNEL_MONO
+    cast 02 = CHANNEL_LEFT
+    cast 03 = CHANNEL_RIGHT
+    cast 04 = CHANNEL_CENTER
+    cast 05 = CHANNEL_FRONT_LEFT
+    cast 06 = CHANNEL_FRONT_RIGHT
+    cast 07 = CHANNEL_FRONT_CENTER
+    cast 08 = CHANNEL_REAR_CENTER
+    cast 09 = CHANNEL_REAR_LEFT
+    cast 10 = CHANNEL_REAR_RIGHT
+    cast 11 = CHANNEL_LFE
+    cast 12 = CHANNEL_FRONT_LEFT_OF_CENTER
+    cast 13 = CHANNEL_FRONT_RIGHT_OF_CENTER
+    cast 14 = CHANNEL_SIDE_LEFT
+    cast 15 = CHANNEL_SIDE_RIGHT
+    cast 16 = CHANNEL_TOP_CENTER
+    cast 17 = CHANNEL_TOP_FRONT_LEFT
+    cast 18 = CHANNEL_TOP_FRONT_RIGHT
+    cast 19 = CHANNEL_TOP_FRONT_CENTER
+    cast 20 = CHANNEL_TOP_REAR_LEFT
+    cast 21 = CHANNEL_TOP_REAR_RIGHT
+    cast 22 = CHANNEL_TOP_REAR_CENTER
+    cast 23 = CHANNEL_AMBISONIC_B_W
+    cast 24 = CHANNEL_AMBISONIC_B_X
+    cast 25 = CHANNEL_AMBISONIC_B_Y
+    cast 26 = CHANNEL_AMBISONIC_B_Z
+    cast 27 = CHANNEL_MAX
+    cast _  = CHANNEL_INVALID
