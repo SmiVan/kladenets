@@ -1,5 +1,6 @@
 module Sound.File.SndFile.Bindings
-import public Sound.File.SndFile.ForeignTypes
+import Sound.File.SndFile.ForeignTypes
+import Sound.File.SndFile.ForeignEnums
 
 libsndfile : String -> String
 libsndfile x = "C:" ++ x ++ ",libsndfile"
@@ -11,11 +12,11 @@ libsndfile x = "C:" ++ x ++ ",libsndfile"
 
 %foreign libsndfile "sf_open"
 export
-prim_sf_open : (path : String) -> (mode : Int) -> SoundFileInfo -> PrimIO SoundFilePtr
+prim_sf_open : (path : String) -> (mode : Int) -> SoundFileInfoStruct -> PrimIO SoundFilePtr
 
 %foreign libsndfile "sf_open_fd"
 export
-prim_sf_open_fd : (file_descriptor : Int) -> (mode : Int) -> SoundFileInfo -> (close_descriptor_bool : Int) -> PrimIO SoundFilePtr
+prim_sf_open_fd : (file_descriptor : Int) -> (mode : Int) -> SoundFileInfoStruct -> (close_descriptor_bool : Int) -> PrimIO SoundFilePtr
 -- TODO: Handle bool
 
 -- %foreign libsndfile "sf_open_virtual"
@@ -45,7 +46,7 @@ prim_sf_command : SoundFilePtr -> (command : Int) -> (data_ptr : AnyPtr) -> (dat
 
 %foreign libsndfile "sf_format_check"
 export
-prim_sf_format_check : SoundFileInfo -> PrimIO Int -- Bool
+prim_sf_format_check : SoundFileInfoStruct -> PrimIO Int -- Bool
 -- TODO: Handle bool
 
 %foreign libsndfile "sf_seek"

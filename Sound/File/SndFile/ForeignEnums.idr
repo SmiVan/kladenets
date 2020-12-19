@@ -623,17 +623,20 @@ Show SoundFileDescriptor where
 
 ---- SOUND FILE OPENING MODES
 
+public export
 data SoundFileAccessMode =
     Read |
     Write |
     ReadWrite
 
+export
 Eq SoundFileAccessMode where
     Read == Read = True
     Write == Write = True
     ReadWrite == ReadWrite = True
     _ == _ = False
 
+export
 Cast SoundFileAccessMode Int where
     cast Read       = 0x10
     cast Write      = 0x20

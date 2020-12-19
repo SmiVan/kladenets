@@ -1,6 +1,8 @@
 module Sound.File.SndFile.FFI
 import Sound.File.SndFile.ForeignEnums
 import Sound.File.SndFile.ForeignTypes
+import Sound.File.SndFile.Bindings
+import Memory.Management
 import System.Path
 import System.FFI
 
@@ -74,7 +76,65 @@ getSFInfo struct =
     in
     MkSFInfo fr sr ch (cast fm) sc (cast sk)
 
+Managed SoundFileInfoStruct where
+    alloc = ?allocSFInfo
+    annul = ?annulSFInfo
+    -- TODO: memory management on c side
+
+record SoundFile where
+    constructor MkSoundFile
+    path : Path
+    mode : SoundFileAccessMode
+    info : SoundFileInfo
+    ptr  : SoundFilePtr
 
 ---- Functions
 
--- sf_open : Path -> Mode -> SoundFileInfo -> SoundFile
+sf_open : Path -> SoundFileAccessMode -> SoundFileInfoStruct -> IO SoundFile
+sf_open p m i =
+    do
+        sfptr <- primIO $ prim_sf_open (show p) (the Int $ cast m) i
+        pure (MkSoundFile p m (getSFInfo i) sfptr)
+
+-- ...
+
+sf_close : SoundFile -> IO ()
+sf_close sf = do
+    primIO $ prim_sf_close (ptr sf)
+    pure ()
+
+-- caseModeOf : {out : Type} -> (mode : SoundFileAccessMode) -> Type
+-- caseModeOf Write  = SoundFileInfo -> (SoundFile -> IO out) -> IO out
+-- caseModeOf _      = (SoundFile -> IO out) -> IO out
+
+private
+sf_manage_with_info : {out : Type}
+         -> SoundFileAccessMode
+         -> SoundFileInfo
+         -> Path
+         -> (SoundFile -> IO out)
+         -> IO out
+sf_manage_with_info mode info path work = do
+    result <- manage (\infostruct => do
+            setSFInfo infostruct info
+            sf <- sf_open path Write infostruct
+            result <- work sf
+            sf_close sf
+            pure result
+        )
+    pure result
+
+sf_manage : {out : Type}
+         -> (mode : SoundFileAccessMode)
+         -> (if mode == Write then SoundFileInfo else ())
+         -> Path
+         -> (SoundFile -> IO out)
+         -> IO out
+sf_manage Write     info    = sf_manage_with_info Write      info
+sf_manage Read      ()      = sf_manage_with_info Read       (MkSFInfo 0 0 0 (cast $ the Int 0) 0 (cast $ the Int 0))
+sf_manage ReadWrite ()      = sf_manage_with_info ReadWrite  (MkSFInfo 0 0 0 (cast $ the Int 0) 0 (cast $ the Int 0))
+
+-- test : IO ()
+-- test = do
+--         sf_manage ?p Read (\sf => pure ())
+--         pure ()
