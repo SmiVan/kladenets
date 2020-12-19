@@ -1,0 +1,4 @@
+package SndFileFileInfo
+
+main = Demo.FileInfo
+executable = snd_file_info
