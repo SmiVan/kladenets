@@ -5,6 +5,7 @@ module Sound.File.SndFile.ForeignEnums
 
 ---- SOUND FILE FORMAT HEADER FORMAT
 
+export
 data SoundFileHeaderFormat =
     NO_HEADER |
     ||| Microsoft WAV format (little endian).
@@ -89,6 +90,7 @@ Eq SoundFileHeaderFormat where
     BAD_HEADER == BAD_HEADER = True
     _ == _ = False
 
+export
 Cast SoundFileHeaderFormat Int where
     cast NO_HEADER  = 0x00000000
     cast WAV        = 0x00010000
@@ -118,6 +120,7 @@ Cast SoundFileHeaderFormat Int where
     cast RF64       = 0x00220000
     cast BAD_HEADER = 0x0FFF0000
 
+export
 Cast Int SoundFileHeaderFormat where
     cast 0x00000000 = NO_HEADER
     cast 0x00010000 = WAV
@@ -178,6 +181,7 @@ Show SoundFileHeaderFormat where
 
 ---- SOUND FILE FORMAT SAMPLE ENCODING
 
+export
 data SoundFileSampleEncoding =
     NO_ENCODING |
     ||| Signed 8 bit data
@@ -256,6 +260,7 @@ Eq SoundFileSampleEncoding where
     BAD_ENCODING == BAD_ENCODING = True
     _ == _ = False
 
+export
 Cast SoundFileSampleEncoding Int where
     cast NO_ENCODING    = 0x00000000
     cast PCM_S8         = 0x00000001
@@ -283,6 +288,7 @@ Cast SoundFileSampleEncoding Int where
     cast VORBIS         = 0x00000060
     cast BAD_ENCODING   = 0x0000FFFF
 
+export
 Cast Int SoundFileSampleEncoding where
     cast 0x00000000 = NO_ENCODING
     cast 0x00000001 = PCM_S8
@@ -339,6 +345,7 @@ Show SoundFileSampleEncoding where
 
 ---- SOUND FILE FORMAT ENDIANNESS
 
+export
 data SoundFileEndian =
     ||| Default file endian-ness.
     FileEndian |
@@ -358,6 +365,7 @@ Eq SoundFileEndian where
     BAD_ENDIAN == BAD_ENDIAN = True
     _ == _ = False
 
+export
 Cast SoundFileEndian Int where
     cast FileEndian     = 0x00000000
     cast LittleEndian   = 0x10000000
@@ -365,6 +373,7 @@ Cast SoundFileEndian Int where
     cast CPUEndian      = 0x30000000
     cast BAD_ENDIAN     = 0xF0000000
 
+export
 Cast Int SoundFileEndian where
     cast 0x00000000     = FileEndian
     cast 0x10000000     = LittleEndian
