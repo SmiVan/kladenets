@@ -675,7 +675,7 @@ Show SoundFileLibError where
     show SoundFileLibErrorSystem = "System error"
     show SoundFileLibErrorMalformedFile = "Malformed file"
     show SoundFileLibErrorUnsupportedEncoding = "Sound file encoding is not supported"
-    show (SoundFileLibErrorInternal x) = "libsndfile internal error " ++ (show x)
+    show (SoundFileLibErrorInternal x) = "internal failure #" ++ (show x)
 
 export
 Cast Int SoundFileLibError where
@@ -811,3 +811,17 @@ Cast Int SoundFileChannel where
     cast 26 = CHANNEL_AMBISONIC_B_Z
     cast 27 = CHANNEL_MAX
     cast _  = CHANNEL_INVALID
+
+public export
+data Whence = Set | Cur | End
+
+Eq Whence where
+	Set == Set = True
+	Cur == Cur = True
+	End == End = True
+	_ == _ = False
+
+Cast Whence Int where
+    cast Set = 0
+    cast Cur = 1
+    cast End = 2

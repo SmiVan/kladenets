@@ -16,9 +16,6 @@ SoundFileCount = Bits64 -- Provisional
 -- TODO: SF_COUNT type changes depending on compile-time conditions.
 --       Low priority, since in practice this is always set to Bits64.
 
-public export
-SoundFileError : Type
-SoundFileError = Int
 
 ---- STRUCTS
 

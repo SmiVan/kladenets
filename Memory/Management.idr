@@ -1,7 +1,7 @@
 module Memory.Management
 
 public export
-interface Managed managed  where
+interface Managed managed where
     private
     alloc : IO managed
     private

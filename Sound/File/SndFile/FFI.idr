@@ -1,10 +1,13 @@
 module Sound.File.SndFile.FFI
-import Sound.File.SndFile.ForeignEnums
+import public Sound.File.SndFile.ForeignEnums
 import Sound.File.SndFile.ForeignTypes
 import Sound.File.SndFile.Bindings
 import Memory.Management
 import System.Path
 import System.FFI
+
+-- Wraps around Bindings, ForeignEnums and ForeignTypes
+-- to provide a function interface to libsndfile.
 
 Cast Bool Int where
     cast True = 0
@@ -13,8 +16,18 @@ Cast Bool Int where
 Cast Int Bool where
     cast = intToBool
 
--- Wraps around Bindings, ForeignEnums and ForeignTypes
--- to provide a function interface to libsndfile.
+public export
+data SoundFileError : Type where
+    ||| Internal libsndfile error
+    SoundFileErrorLibrary : (e : SoundFileLibError) -> SoundFileError
+
+Eq SoundFileError where
+    (SoundFileErrorLibrary e1) == (SoundFileErrorLibrary e2) = e1 == e2
+    _ == _ = False
+
+export
+Show SoundFileError where
+    show (SoundFileErrorLibrary e) = "libsndfile error: " ++ show e
 
 ---- Format and Info
 
@@ -96,45 +109,61 @@ sf_open p m i =
         sfptr <- primIO $ prim_sf_open (show p) (the Int $ cast m) i
         pure (MkSoundFile p m (getSFInfo i) sfptr)
 
--- ...
+sf_error : SoundFile -> IO SoundFileLibError
+sf_error (MkSoundFile _ _ _ ptr) = do
+    err <- primIO $ prim_sf_error ptr
+    pure (cast err)
 
-sf_close : SoundFile -> IO ()
+export
+sf_version_string : IO String
+sf_version_string = do
+    ver <- primIO $ prim_sf_version_string
+    pure ver
+
+sf_close : SoundFile -> IO SoundFileLibError
 sf_close sf = do
-    primIO $ prim_sf_close (ptr sf)
-    pure ()
-
--- caseModeOf : {out : Type} -> (mode : SoundFileAccessMode) -> Type
--- caseModeOf Write  = SoundFileInfo -> (SoundFile -> IO out) -> IO out
--- caseModeOf _      = (SoundFile -> IO out) -> IO out
+    err <- primIO $ prim_sf_close (ptr sf)
+    pure (cast err)
 
 private
 sf_manage_with_info : {out : Type}
          -> SoundFileAccessMode
          -> SoundFileInfo
          -> Path
-         -> (SoundFile -> IO out)
+         -> (work : SoundFile -> IO out)
+         -> (handle_error_opening : SoundFileError -> IO out)
+         -> (handle_error_closing : SoundFileError -> IO out)
          -> IO out
-sf_manage_with_info mode info path work = do
-    result <- manage (\infostruct => do
+sf_manage_with_info mode info path work handle_err_open handle_err_close =
+    manage (\infostruct => do
             setSFInfo infostruct info
             sf <- sf_open path Write infostruct
-            result <- work sf
-            sf_close sf
-            pure result
-        )
-    pure result
+            errno_open <- sf_error sf
+            if errno_open /= SoundFileLibErrorNone
+             then handle_err_open (SoundFileErrorLibrary errno_open)
+             else do
+                result <- work sf
+                errno_close <- sf_close sf
+                if errno_close /= SoundFileLibErrorNone
+                 then handle_err_close (SoundFileErrorLibrary errno_close)
+                 else pure result
+    )
 
+private
+nullInfo : SoundFileInfo
+nullInfo = MkSFInfo 0 0 0 (cast $ the Int 0) 0 (cast $ the Int 0)
+
+export
 sf_manage : {out : Type}
          -> (mode : SoundFileAccessMode)
          -> (if mode == Write then SoundFileInfo else ())
          -> Path
-         -> (SoundFile -> IO out)
+         -> (work : SoundFile -> IO out)
+         -> (handle_error_opening : SoundFileError -> IO out)
+         -> (handle_error_closing : SoundFileError -> IO out)
          -> IO out
 sf_manage Write     info    = sf_manage_with_info Write      info
-sf_manage Read      ()      = sf_manage_with_info Read       (MkSFInfo 0 0 0 (cast $ the Int 0) 0 (cast $ the Int 0))
-sf_manage ReadWrite ()      = sf_manage_with_info ReadWrite  (MkSFInfo 0 0 0 (cast $ the Int 0) 0 (cast $ the Int 0))
+sf_manage Read      ()      = sf_manage_with_info Read       nullInfo
+sf_manage ReadWrite ()      = sf_manage_with_info ReadWrite  nullInfo
 
--- test : IO ()
--- test = do
---         sf_manage ?p Read (\sf => pure ())
---         pure ()
+-- TODO: Error capture and handling

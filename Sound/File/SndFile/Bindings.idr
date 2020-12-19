@@ -26,7 +26,7 @@ prim_sf_open_fd : (file_descriptor : Int) -> (mode : Int) -> SoundFileInfoStruct
 
 %foreign libsndfile "sf_error"
 export
-prim_sf_error : SoundFilePtr -> PrimIO SoundFileError
+prim_sf_error : SoundFilePtr -> PrimIO Int -- err num
 
 %foreign libsndfile "sf_strerror"
 export
@@ -34,7 +34,7 @@ prim_sf_strerror : SoundFilePtr -> PrimIO String
 
 %foreign libsndfile "sf_error_number"
 export
-prim_sf_error_number : SoundFileError -> PrimIO String
+prim_sf_error_number : (errornumber : Int) -> PrimIO String
 
 -- /!\: sf_perror is deprecated
 
@@ -131,7 +131,7 @@ prim_sf_write_double : SoundFilePtr -> (double_ptr : AnyPtr) -> (items : SoundFi
 
 %foreign libsndfile "sf_close"
 export
-prim_sf_close : SoundFilePtr -> PrimIO SoundFileError
+prim_sf_close : SoundFilePtr -> PrimIO Int -- error num
 
 %foreign libsndfile "sf_write_sync"
 export
